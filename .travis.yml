@@ -1,0 +1,39 @@
+language: c
+
+git:
+  depth: 1
+  quiet: true
+  submodules: false
+
+arch:
+  - s390x
+
+os:
+  - linux
+
+branches:
+  only:
+    - s390x
+
+jobs:
+  include:
+    - name: Ubuntu oldest (gcc)
+      dist: xenial
+      compiler: gcc
+    - name: Ubuntu oldest (clang)
+      dist: xenial
+      compiler: clang
+    - name: Ubuntu latest (gcc)
+      dist: bionic
+      compiler: gcc
+    - name: Ubuntu latest (clang)
+      dist: bionic
+      compiler: clang
+
+before_script:
+  - ./autogen.sh
+
+script:
+  - ./configure --enable-pcre2-16 --enable-pcre2-32
+  - make
+  - make check
