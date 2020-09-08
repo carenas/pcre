@@ -34,6 +34,6 @@ before_script:
   - ./autogen.sh
 
 script:
-  - ./configure --enable-pcre2-16 --enable-pcre2-32
+  - CPPFLAGS=-DSLJIT_CONFIG_S390X ./configure --enable-jit --enable-pcre2-16 --enable-pcre2-32
   - make
   - make check
