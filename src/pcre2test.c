@@ -169,13 +169,14 @@ commented out the original, but kept it around just in case. */
 /* void vms_setsymbol( char *, char *, int ); Original code from [1]. */
 #endif
 
-/* VC and older compilers don't support %td or %zu, and even some that claim to
-be C99 don't support it (hence DISABLE_PERCENT_ZT). There are some non-C99
-environments where %lu gives a warning with 32-bit pointers. As there doesn't
-seem to be an easy way round this, just live with it (the cases are rare). */
+/* old VC and older compilers don't support %td or %zu, and even some that
+claim to be C99 don't support it (hence DISABLE_PERCENT_ZT). There are some
+non-C99 environments where %ld gives a warning with 32-bit pointers.
+As there doesn't seem to be an easy way round this, just live with it
+(the cases are rare). */
 
-#if defined(_MSC_VER) || !defined(__STDC_VERSION__) || __STDC_VERSION__ < 199901L || defined(DISABLE_PERCENT_ZT)
-#define PTR_FORM "lu"
+#if defined(DISABLE_PERCENT_ZT) || (defined(_MSC_VER) && (_MSC_VER < 1800)) || !defined(__STDC_VERSION__) || __STDC_VERSION__ < 199901
+#define PTR_FORM "ld"
 #define SIZ_FORM "lu"
 #define SIZ_CAST (unsigned long int)
 #else

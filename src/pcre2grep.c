@@ -110,11 +110,15 @@ MSVC 10/2010. Except for VC6 (which is missing some fundamentals and fails). */
 #define snprintf _snprintf
 #endif
 
-/* VC and older compilers don't support %td or %zu, and even some that claim to
+/* old VC and older compilers don't support %td or %zu, and even some that claim to
 be C99 don't support it (hence DISABLE_PERCENT_ZT). */
 
-#if defined(_MSC_VER) || !defined(__STDC_VERSION__) || __STDC_VERSION__ < 199901L || defined(DISABLE_PERCENT_ZT)
-#define PTR_FORM "lu"
+#if defined(DISABLE_PERCENT_ZT) || (defined(_MSC_VER) && (_MSC_VER < 1800)) || !defined(__STDC_VERSION__) || __STDC_VERSION__ < 199901L
+#if sizeof(void *) == 8
+#define PTR_FORM "lld"
+#else
+#define PTR_FORM "ld"
+#endif
 #define SIZ_FORM "lu"
 #define SIZ_CAST (unsigned long int)
 #else
